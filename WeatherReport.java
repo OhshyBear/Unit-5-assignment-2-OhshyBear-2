@@ -70,11 +70,38 @@ public class WeatherReport {
 
     public boolean isSortedByHigh(){
         for (int i = 0; i< temps.size() - 1; i++){
-            if(temps.get(i).getHigh() > temps.get(i + 1).getHigh())
+            if(temps.get(i).getHigh() < temps.get(i + 1).getHigh())
                 return false;
         }
         return true;
     }
 
-    
+    public void sortWithCollections(String by) {
+        if (by.equalsIgnoreCase("City")) {
+            Collections.sort(temps, Comparator.comparing(Temperature::getCity));
+        } 
+        else if (by.equalsIgnoreCase("High")) {
+            Collections.sort(temps, Comparator.comparingInt(Temperature::getHigh).reversed());
+        } 
+        else {
+            System.out.println("Unknown sort key: " + by);
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Temperature t : temps) {
+            sb.append(t.getCity())
+                .append(", ")
+                .append(t.getState())
+                .append(" | High: ")
+                .append(t.getHigh())
+                .append(" Low: ")
+                .append(t.getLow())
+                .append("\n");
+        }
+        return sb.toString();
+    }
+
 }

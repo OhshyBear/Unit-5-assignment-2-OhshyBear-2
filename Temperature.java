@@ -31,6 +31,11 @@ public class Temperature {
     public String getState() { return state; }
     public int getLow() { return low; }
     public int getHigh() { return high; }
+
+	@Override
+	public String toString() {
+    	return city + ", " + state + " | High: " + high + " Low: " + low;
+	}
 	
 	/* Add appropriate instance attributes, constructors, and accessor/mutator methods */
 }

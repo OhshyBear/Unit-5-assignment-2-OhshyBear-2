@@ -1,12 +1,22 @@
 import java.io.FileNotFoundException;
 /**
- * @author John Cigas
+ * @author Trevor Huddleston
  * Put your name and date and description here.
  */
 public class WeatherDriver {
 
 	public static void main(String[] args) {
 		System.out.println("Starting simulation");
+
+		WeatherReport report = new WeatherReport(); // runs your constructor
+
+    // Print each Temperature object to confirm it loaded correctly
+    for (Temperature t : report.temps) {
+        System.out.println(t.getCity() + ", " + t.getState() +
+                           " | Low: " + t.getLow() +
+                           " | High: " + t.getHigh() +
+                           " | Diff: " + t.differential());
+    }
 		/*
 		String fileName = "weather.txt";
 		try { 

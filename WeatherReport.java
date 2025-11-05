@@ -68,5 +68,13 @@ public class WeatherReport {
         return true;
     }
 
-  
+    public boolean isSortedByHigh(){
+        for (int i = 0; i< temps.size() - 1; i++){
+            if(temps.get(i).getHigh() > temps.get(i + 1).getHigh())
+                return false;
+        }
+        return true;
+    }
+
+    
 }

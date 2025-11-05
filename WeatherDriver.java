@@ -11,7 +11,8 @@ public class WeatherDriver {
 		String fileName = "weather.txt";
 		try { 
 			WeatherReport wr = new WeatherReport(fileName);
-			System.out.println(wr.isSortedByCity());			
+			System.out.println(wr.isSortedByCity());
+			System.out.println(wr.isSortedByHigh());			
 		} 
 		catch (FileNotFoundException e ) {
 			System.out.println("Can't find file " + fileName); 

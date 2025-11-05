@@ -7,13 +7,10 @@ public class WeatherDriver {
 
 	public static void main(String[] args) {
 		System.out.println("Starting simulation");
-
-		WeatherReport report = new WeatherReport(); // runs your constructor
 		
 		String fileName = "weather.txt";
 		try { 
 			WeatherReport wr = new WeatherReport(fileName);
-			System.out.println(wr.getTemps());
 			System.out.println(wr.isSortedByCity());			
 		} 
 		catch (FileNotFoundException e ) {

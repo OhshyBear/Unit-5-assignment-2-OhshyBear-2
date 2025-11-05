@@ -9,7 +9,7 @@ public class Temperature {
     private int low;
     private int high;
 
-    // Empty constructor (optional for now)
+    // Empty constructor 
     public Temperature() {
     }
 

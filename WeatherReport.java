@@ -61,6 +61,12 @@ public class WeatherReport {
     }
 
     public boolean isSortedByCity(){
-        return false;
+        for (int i = 0; i < temps.size() - 1; i++){
+            if(temps.get(i).getCity().compareTo(temps.get(i + 1).getCity()) > 0)
+                return false;
+        }
+        return true;
     }
+
+  
 }

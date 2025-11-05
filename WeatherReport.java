@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.io.FileNotFoundException;
 
 /**
  * @author Trevor Huddleston
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 
 
 public class WeatherReport {
-    public LinkedList<Temperature> temps;
+    private LinkedList<Temperature> temps;
 
     // No-parameter constructor for test data
     public WeatherReport() {
@@ -29,5 +30,37 @@ public class WeatherReport {
         temps.add(new Temperature("Boston", "MA", 35, 52));
         temps.add(new Temperature("San Diego", "CA", 58, 76));
         temps.add(new Temperature("Las Vegas", "NV", 47, 81));
+    }
+
+    public WeatherReport(String fileName) throws FileNotFoundException{
+        temps = new LinkedList<>();
+
+        File file = new File(fileName);
+        Scanner input = new Scanner(file);
+        //skip the header line.
+        if (input.hasNextLine()){
+            input.nextLine();
+        }
+        //read data lines
+        while(input.hasNextLine()){
+            String line = input.nextLine();
+            String[] part = line.split(",");
+
+            String city = part[1];
+            String state = part[10];
+            int low = Integer.parseInt(part[6]);
+            int high = Integer.parseInt(part[5]);
+
+            temps.add(new Temperature(city, state, low, high));
+        }
+        input.close();
+    }
+
+    public LinkedList<Temperature> getTemps(){
+        return temps;
+    }
+
+    public boolean isSortedByCity(){
+        return false;
     }
 }

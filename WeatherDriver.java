@@ -9,18 +9,11 @@ public class WeatherDriver {
 		System.out.println("Starting simulation");
 
 		WeatherReport report = new WeatherReport(); // runs your constructor
-
-    // Print each Temperature object to confirm it loaded correctly
-    for (Temperature t : report.temps) {
-        System.out.println(t.getCity() + ", " + t.getState() +
-                           " | Low: " + t.getLow() +
-                           " | High: " + t.getHigh() +
-                           " | Diff: " + t.differential());
-    }
-		/*
+		
 		String fileName = "weather.txt";
 		try { 
 			WeatherReport wr = new WeatherReport(fileName);
+			System.out.println(wr.getTemps());
 			System.out.println(wr.isSortedByCity());			
 		} 
 		catch (FileNotFoundException e ) {
@@ -29,7 +22,7 @@ public class WeatherDriver {
 		catch (Exception e) {
 			System.out.println("Other error: " + e.getMessage());
 		}
-		*/
+		
 		System.out.println("Finished simulation");
 	}
 

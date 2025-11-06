@@ -20,12 +20,27 @@ public class WeatherDriver {
             System.out.println("\nCollections.sort() by City time: " + (endTime - startTime) + " ns");
             System.out.println("wr sorted by city? " + wr.isSortedByCity());
 
-			long highStartTime = System.nanoTime();
+			startTime = System.nanoTime();
 			wr.sortWithCollections("High");
-			long highEndTime = System.nanoTime();
+			endTime = System.nanoTime();
 			System.out.println("\nCollections.sort() by High time: " + (endTime - startTime) + " ns");
 			System.out.println("wr sorted by High? " + wr.isSortedByHigh());
 			
+			startTime = System.nanoTime();
+            wr.sortWithMerge("City");
+            endTime = System.nanoTime();
+            System.out.println("\nMerge sort by City completed in " + (endTime - startTime) + " ns");
+            System.out.println("Is sorted by City? " + wr.isSortedByCity());
+            
+
+            // Sort by High using merge sort
+            startTime = System.nanoTime();
+            wr.sortWithMerge("High");
+            endTime = System.nanoTime();
+            System.out.println("\nMerge sort by High completed in " + (endTime - startTime) + " ns");
+            System.out.println("Is sorted by High? " + wr.isSortedByHigh());
+            System.out.println("List sorted by High:");
+            System.out.println(wr);
 		} 
 		catch (FileNotFoundException e ) {
 			System.out.println("Can't find file " + fileName); 

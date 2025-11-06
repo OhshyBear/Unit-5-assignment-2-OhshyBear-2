@@ -88,6 +88,54 @@ public class WeatherReport {
         }
     }
 
+    public void sortWithMerge(String by) {
+    temps = mergeSort(temps, by);
+}
+
+private LinkedList<Temperature> mergeSort(LinkedList<Temperature> list, String by) {
+    if (list.size() <= 1) return list;
+
+    int mid = list.size() / 2;
+    LinkedList<Temperature> left = new LinkedList<>(list.subList(0, mid));
+    LinkedList<Temperature> right = new LinkedList<>(list.subList(mid, list.size()));
+
+    left = mergeSort(left, by);
+    right = mergeSort(right, by);
+
+    return merge(left, right, by);
+}
+
+private LinkedList<Temperature> merge(LinkedList<Temperature> left, LinkedList<Temperature> right, String by) {
+    LinkedList<Temperature> merged = new LinkedList<>();
+
+        while (!left.isEmpty() && !right.isEmpty()) {
+            Temperature l = left.peek();
+            Temperature r = right.peek();
+            boolean takeLeft = false;
+
+            if (by.equalsIgnoreCase("City")) {
+                // Ascending order for city
+                takeLeft = l.getCity().compareTo(r.getCity()) <= 0;
+            } 
+            else if (by.equalsIgnoreCase("High")) {
+                // Descending order for high temperature
+                takeLeft = l.getHigh() >= r.getHigh();
+            }
+
+            if (takeLeft) {
+                merged.add(left.poll());
+            } else {
+                merged.add(right.poll());
+            }
+        }
+
+        // Add remaining elements
+        merged.addAll(left);
+        merged.addAll(right);
+
+        return merged;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

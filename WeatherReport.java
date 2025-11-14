@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 
 /**
  * @author Trevor Huddleston
- * Put your name and date and description here.
+ * 11/14/2025
+ * Weather Report Class that has a no parameter constructor of temps to simulate the temperature data from weather.txt
+ * includes a computeByList method that compares the list of temperatures to a lowsList of the CityLowTempStats
+ * if the city is not in the list it adds the city and determines the low and calucates the number of days below freezing.
  */
 
 
@@ -30,17 +33,21 @@ public class WeatherReport {
         temps.add(new Temperature("Las Vegas", "NV", 47));
     }
 
-    public WeatherReport(String fileName) throws FileNotFoundException{
+    /* 
+    public WeatherReport(String fileName) throws FileNotFoundException
+    {
         temps = new LinkedList<>();
 
         File file = new File(fileName);
         Scanner input = new Scanner(file);
         //skip the header line.
-        if (input.hasNextLine()){
+        if (input.hasNextLine())
+        {
             input.nextLine();
         }
         //read data lines
-        while(input.hasNextLine()){
+        while(input.hasNextLine())
+        {
             String line = input.nextLine();
             String[] part = line.split(",");
 
@@ -52,101 +59,51 @@ public class WeatherReport {
         }
         input.close();
     }
+        */
 
-    public LinkedList<Temperature> getTemps(){
+    public LinkedList<Temperature> getTemps()
+    {
         return temps;
     }
 
-    public boolean isSortedByCity(){
-        for (int i = 0; i < temps.size() - 1; i++){
-            if(temps.get(i).getCity().compareTo(temps.get(i + 1).getCity()) > 0)
-                return false;
-        }
-        return true;
-    }
+    public LinkedList<CityLowTempStats> computeByList(){
+        LinkedList<CityLowTempStats> lowsList= new LinkedList<>();
+        for (Temperature t : temps)
+        {
+            boolean found = false;
 
-    public boolean isSortedByHigh(){
-        for (int i = 0; i< temps.size() - 1; i++){
-            if(temps.get(i).getHigh() < temps.get(i + 1).getHigh())
-                return false;
-        }
-        return true;
-    }
-
-    public void sortWithCollections(String by) {
-        if (by.equalsIgnoreCase("City")) {
-            Collections.sort(temps, Comparator.comparing(Temperature::getCity));
-        } 
-        else if (by.equalsIgnoreCase("High")) {
-            Collections.sort(temps, Comparator.comparingInt(Temperature::getHigh).reversed());
-        } 
-        else {
-            System.out.println("Unknown sort key: " + by);
-        }
-    }
-
-    public void sortWithMerge(String by) {
-    temps = mergeSort(temps, by);
-}
-
-private LinkedList<Temperature> mergeSort(LinkedList<Temperature> list, String by) {
-    if (list.size() <= 1) return list;
-
-    int mid = list.size() / 2;
-    LinkedList<Temperature> left = new LinkedList<>(list.subList(0, mid));
-    LinkedList<Temperature> right = new LinkedList<>(list.subList(mid, list.size()));
-
-    left = mergeSort(left, by);
-    right = mergeSort(right, by);
-
-    return merge(left, right, by);
-}
-
-private LinkedList<Temperature> merge(LinkedList<Temperature> left, LinkedList<Temperature> right, String by) {
-    LinkedList<Temperature> merged = new LinkedList<>();
-
-        while (!left.isEmpty() && !right.isEmpty()) {
-            Temperature l = left.peek();
-            Temperature r = right.peek();
-            boolean takeLeft = false;
-
-            if (by.equalsIgnoreCase("City")) {
-                // Ascending order for city
-                takeLeft = l.getCity().compareTo(r.getCity()) <= 0;
-            } 
-            else if (by.equalsIgnoreCase("High")) {
-                // Descending order for high temperature
-                takeLeft = l.getHigh() >= r.getHigh();
+            for (CityLowTempStats cl : lowsList)
+            {
+                if (cl.getCity().equals(t.getCity()))
+                {
+                    if (t.getLow() < cl.getLow())
+                    {
+                        cl.setNewLow(t.getLow());
+                    }
+                    if (t.getLow() < 33)
+                    {
+                        cl.incrementDaysBelowFreezing();
+                    }
+                    found = true;
+                    break;
+                }
             }
 
-            if (takeLeft) {
-                merged.add(left.poll());
-            } else {
-                merged.add(right.poll());
+            if (!found)
+            {
+                int daysBelowFreezing = (t.getLow() < 33) ? 1 : 0;
+                CityLowTempStats newStat = new CityLowTempStats
+                (
+                    t.getCity(),
+                    t.getState(),
+                    t.getLow(),
+                    daysBelowFreezing
+                );
+                lowsList.add(newStat);
             }
+            
         }
-
-        // Add remaining elements
-        merged.addAll(left);
-        merged.addAll(right);
-
-        return merged;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Temperature t : temps) {
-            sb.append(t.getCity())
-                .append(", ")
-                .append(t.getState())
-                .append(" | High: ")
-                .append(t.getHigh())
-                .append(" Low: ")
-                .append(t.getLow())
-                .append("\n");
-        }
-        return sb.toString();
+        return lowsList;
     }
 
 }

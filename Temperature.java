@@ -1,7 +1,7 @@
 /**
  * @author Trevor Huddleston
- *
- * My statistic is will count the number of days recorded below freezing as well as the lowest temperature recorded for that city 
+ * 11/14/2025
+ * Temperature.Java takes raw data from weather.txt and returns the city state and low for each input.  
  */
 public class Temperature {
     private String city;
@@ -19,12 +19,7 @@ public class Temperature {
         this.low = low;
     }
 
-    // Returns the positive difference between high and low
-    public int differential() {
-        return Math.abs(high - low);
-    }
-
-    // Getters (will be used for sorting later)
+    // Getters 
     public String getCity() { return city; }
     public String getState() { return state; }
     public int getLow() { return low; }
@@ -33,6 +28,4 @@ public class Temperature {
 	public String toString() {
     	return city + ", " + state + " | Lowest temperature: " + low;
 	}
-	
-	/* Add appropriate instance attributes, constructors, and accessor/mutator methods */
 }

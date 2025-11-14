@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.io.FileNotFoundException;
+import java.util.TreeMap;
 
 /**
  * @author Trevor Huddleston
@@ -72,6 +73,7 @@ public class WeatherReport {
         {
             boolean found = false;
 
+            //add any new lows or increment the number of days freezing for existing cities in lowsList
             for (CityLowTempStats cl : lowsList)
             {
                 if (cl.getCity().equals(t.getCity()))
@@ -89,6 +91,7 @@ public class WeatherReport {
                 }
             }
 
+            //add cities not already in the list and calculate if the the entry was below freezing
             if (!found)
             {
                 int daysBelowFreezing = (t.getLow() < 33) ? 1 : 0;
@@ -105,5 +108,45 @@ public class WeatherReport {
         }
         return lowsList;
     }
+
+    //Tree Map Code
+    public TreeMap<String, CityLowTempStats> computeByTree()
+    {
+        //create a new TreeMap of the CityLowTempStats
+        TreeMap<String, CityLowTempStats> cityLowMap = new TreeMap<>();
+
+        for(Temperature t : temps)
+        {
+            //update any new lows and add any days freezing
+            if (cityLowMap.containsKey(t.getCity()))
+            {
+                CityLowTempStats cl = cityLowMap.get(t.getCity());
+                if(t.getLow() < cl.getLow())
+                {
+                    cl.setNewLow(t.getLow());
+                }
+                if(t.getLow() < 33)
+                {
+                    cl.incrementDaysBelowFreezing();
+                }
+            }
+            //add any new cities to the cityLowMap and determine the low and if it was freezing
+            else
+            {
+                int daysBelowFreezing = (t.getLow() < 33) ? 1 : 0;
+                CityLowTempStats newStats = new CityLowTempStats
+                (
+                    t.getCity(),
+                    t.getState(),
+                    t.getLow(),
+                    daysBelowFreezing
+                );
+
+                cityLowMap.put(t.getCity(), newStats);
+            }
+        }
+        return cityLowMap;
+    }
+
 
 }

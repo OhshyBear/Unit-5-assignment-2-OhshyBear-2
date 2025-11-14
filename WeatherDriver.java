@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.TreeMap;
 /**
  * @author Trevor Huddleston
  * Put your name and date and description here.
@@ -15,14 +16,19 @@ public class WeatherDriver {
 			System.out.println(cl);
 		}
 
+		System.out.println();
+
+		TreeMap<String, CityLowTempStats> treeLowsReport = wr.computeByTree();
+		for (CityLowTempStats cl : treeLowsReport.values()){
+			System.out.println(cl);
+		}
+
         /* 
 		String fileName = "weather.txt";
 		try { 
 			// Step 7: Create 4 WeatherReport objects with identical data
-            WeatherReport wr1 = new WeatherReport(fileName);
-            WeatherReport wr2 = new WeatherReport(fileName);
-            WeatherReport wr3 = new WeatherReport(fileName);
-            WeatherReport wr4 = new WeatherReport(fileName);
+            WeatherReport wrComputedByList = new WeatherReport(fileName);
+            WeatherReport wrComputedByTreeMap = new WeatherReport(fileName);
 		} 
 		catch (FileNotFoundException e ) {
 			System.out.println("Can't find file " + fileName); 

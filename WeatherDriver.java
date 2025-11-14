@@ -10,37 +10,46 @@ public class WeatherDriver {
 		
 		String fileName = "weather.txt";
 		try { 
-			WeatherReport wr = new WeatherReport(fileName);
-			System.out.println(wr.isSortedByCity());
-			System.out.println(wr.isSortedByHigh());	
-			
-			long startTime = System.nanoTime();
-            wr.sortWithCollections("City");
+			// Step 7: Create 4 WeatherReport objects with identical data
+            WeatherReport wr1 = new WeatherReport(fileName);
+            WeatherReport wr2 = new WeatherReport(fileName);
+            WeatherReport wr3 = new WeatherReport(fileName);
+            WeatherReport wr4 = new WeatherReport(fileName);
+
+            // Verify initial state (unsorted)
+            System.out.println("Initial lists unsorted:");
+            System.out.println("wr1 sorted by City? " + wr1.isSortedByCity());
+            System.out.println("wr2 sorted by City? " + wr2.isSortedByCity());
+            System.out.println("wr3 sorted by High? " + wr3.isSortedByHigh());
+            System.out.println("wr4 sorted by High? " + wr4.isSortedByHigh());
+
+            // Sort wr1 with Collections.sort() by City
+            long startTime = System.nanoTime();
+            wr1.sortWithCollections("City");
             long endTime = System.nanoTime();
             System.out.println("\nCollections.sort() by City time: " + (endTime - startTime) + " ns");
-            System.out.println("wr sorted by city? " + wr.isSortedByCity());
+            System.out.println("wr1 sorted by City? " + wr1.isSortedByCity());
 
-			startTime = System.nanoTime();
-			wr.sortWithCollections("High");
-			endTime = System.nanoTime();
-			System.out.println("\nCollections.sort() by High time: " + (endTime - startTime) + " ns");
-			System.out.println("wr sorted by High? " + wr.isSortedByHigh());
-			
-			startTime = System.nanoTime();
-            wr.sortWithMerge("City");
-            endTime = System.nanoTime();
-            System.out.println("\nMerge sort by City completed in " + (endTime - startTime) + " ns");
-            System.out.println("Is sorted by City? " + wr.isSortedByCity());
-            
-
-            // Sort by High using merge sort
+            // Sort wr2 with merge sort by City
             startTime = System.nanoTime();
-            wr.sortWithMerge("High");
+            wr2.sortWithMerge("City");
             endTime = System.nanoTime();
-            System.out.println("\nMerge sort by High completed in " + (endTime - startTime) + " ns");
-            System.out.println("Is sorted by High? " + wr.isSortedByHigh());
-            System.out.println("List sorted by High:");
-            System.out.println(wr);
+            System.out.println("Merge sort by City time: " + (endTime - startTime) + " ns");
+            System.out.println("wr2 sorted by City? " + wr2.isSortedByCity());
+
+            // Sort wr3 with Collections.sort() by High
+            startTime = System.nanoTime();
+            wr3.sortWithCollections("High");
+            endTime = System.nanoTime();
+            System.out.println("\nCollections.sort() by High time: " + (endTime - startTime) + " ns");
+            System.out.println("wr3 sorted by High? " + wr3.isSortedByHigh());
+
+            // Sort wr4 with merge sort by High
+            startTime = System.nanoTime();
+            wr4.sortWithMerge("High");
+            endTime = System.nanoTime();
+            System.out.println("Merge sort by High time: " + (endTime - startTime) + " ns");
+            System.out.println("wr4 sorted by High? " + wr4.isSortedByHigh());
 		} 
 		catch (FileNotFoundException e ) {
 			System.out.println("Can't find file " + fileName); 

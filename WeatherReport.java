@@ -34,7 +34,7 @@ public class WeatherReport {
         temps.add(new Temperature("Las Vegas", "NV", 47));
     }
 
-    /* 
+    
     public WeatherReport(String fileName) throws FileNotFoundException
     {
         temps = new LinkedList<>();
@@ -60,7 +60,6 @@ public class WeatherReport {
         }
         input.close();
     }
-        */
 
     public LinkedList<Temperature> getTemps()
     {
@@ -112,7 +111,7 @@ public class WeatherReport {
     //Tree Map Code
     public TreeMap<String, CityLowTempStats> computeByTree()
     {
-        //create a new TreeMap of the CityLowTempStats
+        //TreeMap of the CityLowTempStats
         TreeMap<String, CityLowTempStats> cityLowMap = new TreeMap<>();
 
         for(Temperature t : temps)
